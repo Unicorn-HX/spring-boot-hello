@@ -10,10 +10,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "user")
-public class User implements Serializable {
+public class User implements java.io.Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String name;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createdate;
@@ -21,20 +21,22 @@ public class User implements Serializable {
     @ManyToOne
     @JoinColumn(name = "did")
     @JsonBackReference
-    private Deparment deparment;
+    private Department deparment;
 
     @ManyToMany(cascade = {}, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "roles_id")})
+    @JoinTable(name = "user_role",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "roles_id")})
     private List<Role> roles;
 
-    public User () {
+    public User() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -54,11 +56,11 @@ public class User implements Serializable {
         this.createdate = createdate;
     }
 
-    public Deparment getDeparment() {
+    public Department getDeparment() {
         return deparment;
     }
 
-    public void setDeparment(Deparment deparment) {
+    public void setDeparment(Department deparment) {
         this.deparment = deparment;
     }
 
